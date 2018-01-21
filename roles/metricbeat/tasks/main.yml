@@ -1,0 +1,26 @@
+---
+- name: Check variable metricbeat_hosts
+  fail: msg="WARNING - It is recommended you specify the parameter 'metricbeat_hosts'"
+  when: metricbeat_hosts is not defined or metricbeat_hosts == ''
+
+# hostname 설정
+- name: Host name
+  become: yes
+  shell: hostname {{ instance_name }}
+  ignore_errors: yes
+
+- include: metricbeat.yml
+  tags:
+      - install
+
+- include: metricbeat-config.yml
+  tags:
+      - config
+
+- meta: flush_handlers
+
+- name: Make sure metricbeat is started
+  become: yes
+  service: name=metricbeat state=started enabled=yes
+  when: mb_start_service
+  delay: 10

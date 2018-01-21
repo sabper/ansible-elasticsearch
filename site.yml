@@ -1,0 +1,28 @@
+- name: Elasticsearch single node
+  hosts: Elasticsearch-1
+  remote_user: ec2-user
+  roles:
+    #expand to all available parameters
+    - { role: node,
+        es_instance_name: "node-1",
+        es_config: {
+          node.name: "node-1", 
+          cluster.name: "cluster-b",
+          network.host: 172.31.14.112,
+          http.port: 1201,
+          http.enabled: true,
+          transport.tcp.port: 1301,
+          discovery.zen.ping.unicast.hosts: "172.31.14.112:1301",
+          discovery.zen.minimum_master_nodes: 1,
+          node.data: true, 
+          node.master: true,
+          node.ingest: false
+        },
+        metricbeat_hosts: ["172.31.14.112:1201"]
+      }
+  vars:
+    es_scripts: false
+    es_templates: false
+    es_heap_size: 512m
+    es_start_service: true
+    es_plugins_reinstall: false

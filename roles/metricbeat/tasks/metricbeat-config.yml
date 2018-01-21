@@ -1,0 +1,9 @@
+---
+# Configure metricbeat
+
+#Copy the metricbeat config template
+- name: Copy metricbeat Configuration File
+  become: yes
+  template: src=metricbeat.yml.j2 dest=/etc/metricbeat/metricbeat.yml mode=0644 force=yes
+  register: system_change
+  notify: restart metricbeat

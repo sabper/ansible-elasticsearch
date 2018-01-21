@@ -1,0 +1,19 @@
+---
+
+- name: Set java_state
+  set_fact: java_state="present"
+
+- name: Set java_state
+  set_fact: java_state="latest"
+  when: update_java == true
+
+- name: Ensure Java is installed
+  become: yes
+  yum: name={{ java }} state={{java_state}}
+
+- name: Check java version
+  shell: java -version 2>&1 | grep OpenJDK
+  register: open_jdk
+  ignore_errors: yes
+  changed_when: false
+

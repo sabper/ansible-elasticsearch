@@ -1,0 +1,4 @@
+---
+es_major_version: "6.x"
+metricbeat_hosts: []
+mb_start_service: true

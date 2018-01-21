@@ -1,0 +1,54 @@
+# Check for mandatory parameters
+
+- name: Check variable es_instance_name
+  fail: msg="es_instance_name must be specified and cannot be blank"
+  when: es_instance_name is not defined or es_instance_name == ''
+
+- name: Check variable http.port
+  debug: msg="WARNING - It is recommended you specify the parameter 'http.port'"
+  when: es_config['http.port'] is not defined
+
+- name: Check variable transport.tcp.port
+  debug: msg="WARNING - It is recommended you specify the parameter 'transport.tcp.port'"
+  when: es_config['transport.tcp.port'] is not defined
+
+- name: Check variable discovery.zen.ping.unicast.hosts
+  debug: msg="WARNING - It is recommended you specify the parameter 'discovery.zen.ping.unicast.hosts'"
+  when: es_config['discovery.zen.ping.unicast.hosts'] is not defined
+
+- name: Check variable metricbeat_hosts
+  fail: msg="WARNING - It is recommended you specify the parameter 'metricbeat_hosts'"
+  when: metricbeat_hosts is not defined or metricbeat_hosts == ''
+
+# 초기 변수 세팅
+# /etc/sysconfig/elasticsearch - pulgin에서 사용
+- name: Set instance_default_file
+  set_fact: instance_default_file={{default_file}}
+
+# /etc/init.d/elasticsearch elastic
+- name: Set instance_init_script
+  set_fact: instance_init_script={{init_script}}
+
+# /etc/elasticsearch/node-1 - elasticsearch 재시작시 사용
+- name: Set conf_dir
+  set_fact: conf_dir={{ es_conf_dir }}
+
+- name: Set m_lock_enabled
+  set_fact: m_lock_enabled={{ es_config['bootstrap.memory_lock'] is defined and es_config['bootstrap.memory_lock'] == True }}
+
+#Use systemd for the following distributions:
+#Centos 7 and up
+#Relies on elasticsearch distribution installing a serviced script to determine whether one should be copied.
+
+# centos (ami) 이므로 true 고정. centos 에서는 systemd 사용
+- name: Set use_system_d=true
+  set_fact: use_system_d=true
+
+- name: Set pid_dir
+  set_fact: pid_dir={{ es_pid_dir }}
+
+- name: Set log_dir
+  set_fact: log_dir={{ es_log_dir }}
+
+- name: Set es_data_dirs
+  set_fact: data_dirs={{ es_data_dirs }}

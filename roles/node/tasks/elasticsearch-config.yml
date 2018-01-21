@@ -1,0 +1,32 @@
+---
+# Configure Elasticsearch Node
+
+#Clean up un-wanted package scripts to avoid confusion
+
+#Create required directories
+- name: Create Directories
+  become: yes
+  file: path={{ item }} state=directory owner={{ es_user }} group={{ es_group }}
+  with_items:
+    - "{{pid_dir}}"
+    - "{{log_dir}}"
+    - "{{conf_dir}}"
+    - "{{data_dirs}}"
+
+#Copy the config template
+- name: Copy Configuration File
+  become: yes
+  template: src=elasticsearch.yml.j2 dest={{conf_dir}}/elasticsearch.yml owner={{ es_user }} group={{ es_group }} mode=0644 force=yes
+  register: system_change
+  notify: restart elasticsearch
+
+#Copy the logging.yml
+- name: Copy log4j2.properties File for Instance
+  become: yes
+  template: src={{es_config_log4j2}} dest={{conf_dir}}/log4j2.properties owner={{ es_user }} group={{ es_group }} mode=0644 force=yes
+  notify: restart elasticsearch
+
+- name: Copy jvm.options File for Instance
+  become: yes
+  template: src=jvm.options.j2 dest={{conf_dir}}/jvm.options owner={{ es_user }} group={{ es_group }} mode=0644 force=yes
+  notify: restart elasticsearch

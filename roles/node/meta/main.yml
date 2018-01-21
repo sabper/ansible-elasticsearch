@@ -1,0 +1,18 @@
+---
+
+allow_duplicates: yes
+
+galaxy_info:
+  author: Jongwon Yoon
+  description: Elasticsearch For ec2 instance
+  company: ""
+  license: "license (Apache)"
+  min_ansible_version: 2.4.2
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  categories:
+    - system
+
+dependencies: []

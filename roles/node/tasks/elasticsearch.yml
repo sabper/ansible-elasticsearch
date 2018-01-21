@@ -1,0 +1,25 @@
+---
+
+# elasticsearch repo 설정
+- name: Add Elasticsearch repo
+  become: yes
+  template: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch-{{ es_major_version }}.repo
+  when: es_use_repository
+
+# 설치되어 있는 elasticsearch 삭제
+- name: Remove Elasticsearch
+  become: yes
+  yum: name=elasticsearch state=removed update_cache=yes
+  when: es_use_repository
+  delay: 10
+
+# elastic 이미 설치되어 있는 경우 skip?
+- name: Install Elasticsearch
+  become: yes
+  yum: name=elasticsearch state=installed update_cache=yes
+  when: es_use_repository
+  register: redhat_elasticsearch_install_from_repo
+  notify: restart elasticsearch
+  until: '"failed" not in redhat_elasticsearch_install_from_repo'
+  retries: 5
+  delay: 10
