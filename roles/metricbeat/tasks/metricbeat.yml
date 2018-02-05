@@ -5,15 +5,10 @@
   become: yes
   template: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch-{{ es_major_version }}.repo
 
-# 설치되어 있는 metricbeat 삭제
-- name: Remove Metricbeat
-  become: yes
-  yum: name=metricbeat state=removed update_cache=yes
-  delay: 10
-
 # metricbeat install
 - name: Install Metricbeat
   become: yes
   yum: name=metricbeat state=installed update_cache=yes
   notify: restart metricbeat
   delay: 10
+

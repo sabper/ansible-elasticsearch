@@ -34,4 +34,4 @@
 # - include: elasticsearch-template.yml
 #   when: es_templates
 #   tags:
-#       - templates
+#       - templatest

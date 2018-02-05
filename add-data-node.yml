@@ -8,11 +8,11 @@
         es_config: {
           node.name: "node-3", 
           cluster.name: "cluster-es",
-          network.host: {node-4 ip},
+          network.host: {node-4 private ip},
           http.port: 9203,
           http.enabled: true,
           transport.tcp.port: 9303,
-          discovery.zen.ping.unicast.hosts: "{node-0 ip}:9300,{node-1 ip}:9301,{node-2 ip}:9302,{{node-3 ip}}:9303",
+          discovery.zen.ping.unicast.hosts: "{node-0 private ip}:9300,{node-1 private ip}:9301,{node-2 private ip}:9302,{{node-3 private ip}}:9303",
           discovery.zen.minimum_master_nodes: 2,
           node.data: true, 
           node.master: false,
@@ -33,6 +33,6 @@
     #expand to all available parameters
     - { role: metricbeat,
         instance_name: "node-3",
-        metricbeat_hosts: "{node-0 ip}:9200\", \"{node-2 ip}:9201\", \"{node-2 ip}:9202\", \"{node-3 ip}:9203",
+        metricbeat_hosts: "{node-0 private ip}:9200\", \"{node-2 private ip}:9201\", \"{node-2 private ip}:9202\", \"{node-3 private ip}:9203",
         kibana_host: "{kibana ip}"
       }

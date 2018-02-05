@@ -45,6 +45,14 @@
   {node-3 ip} ansible_ssh_private_key_file={pem file location}
   ```
 
+* 설치하려는 ec2 known host로 등록
+
+	> <http://bcho.tistory.com/1227?category=502863>
+
+	```shell
+	ssh-keyscan -f ./inventories/dev/hosts_known >> ~/.ssh/known_hosts
+	```
+
 * 접속 가능한지 확인
 
   * -i 옵션은 hosts 파일 경로를 지정해주는 옵션임
@@ -91,12 +99,12 @@
 
 * `site.yml` 수정
 
-  * `network.host` ec2 instance private ip 로 세팅 `network.host: {node ip}`
+  * `network.host` ec2 instance **private ip** 로 세팅 `network.host: {node ip}`
 
-  * `discovery.zen.ping.unicast.hosts` ec2 instance private ip 로 세팅
+  * `discovery.zen.ping.unicast.hosts` ec2 instance **private ip** 로 세팅
 
     ```code
-    discovery.zen.ping.unicast.hosts: "{node-0 ip}:9300,{node-1 ip}:9301,{node-2 ip}:9302",
+    discovery.zen.ping.unicast.hosts: "{node-0 private ip}:9300,{node-1 private ip}:9301,{node-2 private ip}:9302",
     ```
 
   * `hosts` 이름 세팅 inventories/*/hosts 에 세팅한 이름으로 수정 ex. `Elasticsearch-0`
@@ -108,6 +116,29 @@
   ```shell
   ansible-playbook -i inventories/dev/hosts es-cluster-three.yml
   ```
+
+* cluster health check
+
+  ```shell
+  jongwonui-MacBook-Pro:ansible-elasticsearch jongwonyoon$ curl {node public ip}:9200/_cluster/health?pretty
+  {
+    "cluster_name" : "cluster-es",
+    "status" : "green",
+    "timed_out" : false,
+    "number_of_nodes" : 3,
+    "number_of_data_nodes" : 3,
+    "active_primary_shards" : 0,
+    "active_shards" : 0,
+    "relocating_shards" : 0,
+    "initializing_shards" : 0,
+    "unassigned_shards" : 0,
+    "delayed_unassigned_shards" : 0,
+    "number_of_pending_tasks" : 0,
+    "number_of_in_flight_fetch" : 0,
+    "task_max_waiting_in_queue_millis" : 0,
+    "active_shards_percent_as_number" : 100.0
+  }
+  ```  
 
 #### metricbeat 설치
 

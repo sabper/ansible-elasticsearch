@@ -4,7 +4,7 @@
   roles:
     - { role: metricbeat,
         instance_name: "node-0",
-        metricbeat_hosts: "{node-0 ip}:9200\", \"{node-1 ip}:9201\", \"{node-2 ip}:9202",
+        metricbeat_hosts: "{node-0 private ip}:9200\", \"{node-1 private ip}:9201\", \"{node-2 private ip}:9202",
         kibana_host: "{kibana ip}:5601"
       }
 
@@ -14,7 +14,7 @@
   roles:
     - { role: metricbeat,
         instance_name: "node-1",
-        metricbeat_hosts: "{node-0 ip}:9200\", \"{node-1 ip}:9201\", \"{node-2 ip}:9202",
+        metricbeat_hosts: "{node-0 private ip}:9200\", \"{node-1 private ip}:9201\", \"{node-2 private ip}:9202",
         kibana_host: "{kibana ip}:5601"
       }
 
@@ -24,6 +24,6 @@
   roles:
     - { role: metricbeat,
         instance_name: "node-2",
-        metricbeat_hosts: "{node-0 ip}:9200\", \"{node-1 ip}:9201\", \"{node-2 ip}:9202",
+        metricbeat_hosts: "{node-0 private ip}:9200\", \"{node-1 private ip}:9201\", \"{node-2 private ip}:9202",
         kibana_host: "{kibana ip}:5601"
       }

@@ -3,3 +3,5 @@ inventories/dev/*
 inventories/prod/*
 
 inventories/staging/*
+
+*.retry

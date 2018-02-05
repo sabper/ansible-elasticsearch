@@ -7,11 +7,11 @@
         es_config: {
           node.name: "node-0", 
           cluster.name: "cluster-es",
-          network.host: {es node-0 ip},
+          network.host: {node-0 private ip},
           http.port: 9200,
           http.enabled: true,
           transport.tcp.port: 9300,
-          discovery.zen.ping.unicast.hosts: "{es node-0 ip}:9300,{es node-1 ip}:9301,{es node-2 ip}:9302",
+          discovery.zen.ping.unicast.hosts: "{node-0 private ip}:9300,{node-1 private ip}:9301,{node-2 private ip}:9302",
           discovery.zen.minimum_master_nodes: 2,
           node.data: true, 
           node.master: true,
@@ -21,7 +21,7 @@
   vars:
     es_scripts: false
     es_templates: false
-    es_heap_size: 8g
+    es_heap_size: 512m
     es_start_service: true
     es_plugins_reinstall: false
 
@@ -32,13 +32,13 @@
     - { role: node,
         es_instance_name: "node-1",
         es_config: {
-          node.name: "node-1", 
+          node.name: "node-1",
           cluster.name: "cluster-es",
-          network.host: {es node-1 ip},
+          network.host: {node-1 private ip},
           http.port: 9201,
           http.enabled: true,
           transport.tcp.port: 9301,
-          discovery.zen.ping.unicast.hosts: "{es node-0 ip}:9300,{es node-1 ip}:9301,{es node-2 ip}:9302",
+          discovery.zen.ping.unicast.hosts: "{node-0 private ip}:9300,{node-1 private ip}:9301,{node-2 private ip}:9302",
           discovery.zen.minimum_master_nodes: 2,
           node.data: true, 
           node.master: true,
@@ -48,7 +48,7 @@
   vars:
     es_scripts: false
     es_templates: false
-    es_heap_size: 8g
+    es_heap_size: 512m
     es_start_service: true
     es_plugins_reinstall: false
 
@@ -61,11 +61,11 @@
         es_config: {
           node.name: "node-2", 
           cluster.name: "cluster-es",
-          network.host: {es node-2 ip},
+          network.host: {node-2 private ip},
           http.port: 9202,
           http.enabled: true,
           transport.tcp.port: 9302,
-          discovery.zen.ping.unicast.hosts: "{es node-0 ip}:9300,{es node-1 ip}:9301,{es node-2 ip}:9302",
+          discovery.zen.ping.unicast.hosts: "{node-0 private ip}:9300,{node-1 private ip}:9301,{node-2 private ip}:9302",
           discovery.zen.minimum_master_nodes: 2,
           node.data: true, 
           node.master: true,
@@ -75,7 +75,7 @@
   vars:
     es_scripts: false
     es_templates: false
-    es_heap_size: 8g
+    es_heap_size: 512m
     es_start_service: true
     es_plugins_reinstall: false
 
